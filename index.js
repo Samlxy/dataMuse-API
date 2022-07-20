@@ -11,7 +11,7 @@ const getSuggestions = () => {
   const wordQuery = inputField.value;
   const endpoint = `${url}${wordQuery}`;
 
-  fetch(endpoint, { cache: "no-cache" })
+  fetch(endpoint)
     .then(
       (response) => {
         if (response.ok) {
