@@ -1,34 +1,30 @@
 // Information to reach API
-const url = "https://api.datamuse.com/words?sl=";
+const url = "https://api.datamuse.com/words?";
+const queryParams = "rel_jja=";
 
-// Selects page elements
+// Selecting page elements
 const inputField = document.querySelector("#input");
 const submit = document.querySelector("#submit");
 const responseField = document.querySelector("#responseField");
 
 // Asynchronous function
-const getSuggestions = () => {
+const getSuggestions = async () => {
   const wordQuery = inputField.value;
-  const endpoint = `${url}${wordQuery}`;
+  const endpoint = url + queryParams + wordQuery;
 
-  fetch(endpoint)
-    .then(
-      (response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Request failed!");
-      },
-      (networkError) => {
-        console.log(networkError.message);
-      }
-    )
-    .then((jsonResponse) => {
+  try {
+    const response = await fetch(endpoint);
+    if (response.ok) {
+      const jsonResponse = await response.json();
       renderResponse(jsonResponse);
-    });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
+// Code goes here
 
-// Clears previous results and display results to webpage
+// Clear previous results and display results to webpage
 const displaySuggestions = (event) => {
   event.preventDefault();
   while (responseField.firstChild) {
